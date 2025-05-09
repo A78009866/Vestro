@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - متجر الأزياء الرجالية</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .product-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .product-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .product-gallery {
+            position: relative;
+        }
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .product-info h1 {
+            margin-top: 0;
+            color: #1a1a1a;
+        }
+        .product-price {
+            font-size: 2rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        .product-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .stock-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .order-form {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .btn {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #c9a227;
+        }
+        @media (max-width: 768px) {
+            .product-content {
+                grid-template-columns: 1fr;
+            }
+            .main-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'store/header.html' %}
+    
+    <div class="container">
+        <div class="product-header">
+            <h1>{{ product.name }}</h1>
+        </div>
+        
+        <div class="product-content">
+            <div class="product-gallery">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+            </div>
+            
+            <div class="product-info">
+                <div class="stock-status">
+                    {% if product.stock > 0 %}
+                        متوفر في المخزن ({{ product.stock }} قطع)
+                    {% else %}
+                        غير متوفر حالياً
+                    {% endif %}
+                </div>
+                
+                <div class="product-price">{{ product.price }} دج</div>
+                
+                <div class="product-description">
+                    {{ product.description|linebreaks }}
+                </div>
+                
+                {% if product.stock > 0 %}
+                <div class="order-form">
+                    <h2>أكمل طلبك</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_customer_name">الاسم الكامل</label>
+                            {{ form.customer_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_phone_number">رقم الهاتف</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_wilaya">الولاية</label>
+                            {{ form.wilaya }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_address">العنوان التفصيلي</label>
+                            {{ form.address }}
+                        </div>
+                        <button type="submit" class="btn">تأكيد الطلب</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript للتعامل مع النموذج
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            
+            form.addEventListener('submit', function(e) {
+                const phoneNumber = document.getElementById('id_phone_number').value;
+                
+                if (!/^(05|06|07)\d{8}$/.test(phoneNumber)) {
+                    e.preventDefault();
+                    alert('الرجاء إدخال رقم هاتف جزائري صحيح (يبدأ بـ 05 أو 06 أو 07 ويتكون من 10 أرقام)');
+                    return false;
+                }
+                
+                return true;
+            });
+        });
+    </script>
+</body>
+</html>

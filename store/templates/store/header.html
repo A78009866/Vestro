@@ -1,0 +1,16 @@
+<header>
+    <h1>متجر الأزياء الرجالية</h1>
+    <p>أناقة جزائرية بأسلوب عصري</p>
+</header>
+
+<nav>
+    <a href="{% url 'store:home' %}">الرئيسية</a>
+    <a href="#featured">منتجات مميزة</a>
+    <a href="#categories">الفئات</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'store:dashboard' %}">لوحة التحكم</a>
+        <a href="{% url 'store:logout' %}">تسجيل الخروج</a>
+    {% else %}
+        <a href="{% url 'store:login' %}">تسجيل الدخول</a>
+    {% endif %}
+</nav>
