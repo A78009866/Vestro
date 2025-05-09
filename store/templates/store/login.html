@@ -4,125 +4,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - متجر الهواتف</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        dark: {
-                            100: '#1a1a1a',
-                            200: '#2d2d2d',
-                            300: '#3d3d3d',
-                        },
-                        light: {
-                            100: '#f3f4f6',
-                            200: '#e5e7eb',
-                            300: '#d1d5db'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>تسجيل الدخول - متجر الأزياء الرجالية</title>
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #f3f4f6;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+        
         .login-container {
-            background-color: #2d2d2d;
-            border: 1px solid #3d3d3d;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin: 1rem;
         }
-        .form-input {
-            background-color: #3d3d3d !important;
-            color: #f3f4f6 !important;
-            border-color: #4b5563 !important;
+        
+        .brand-logo {
+            color: #000000;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
-        .form-input:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        
+        .brand-name {
+            color: #000000;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
+        
+        .brand-slogan {
+            color: #666666;
+            margin-bottom: 2rem;
+        }
+        
+        .login-title {
+            color: #000000;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+        
         .form-label {
-            color: #d1d5db !important;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000000;
+            font-weight: bold;
         }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-family: inherit;
+            background-color: #ffffff;
+            color: #333333;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-login {
+            background-color: #d4af37;
+            color: #000000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
         .btn-login:hover {
-            background-color: #1d4ed8;
+            background-color: #c9a227;
             transform: translateY(-2px);
         }
+        
         .error-message {
-            background-color: #7f1d1d !important;
-            border-color: #991b1b !important;
-            color: #fee2e2 !important;
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .brand-text {
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+            margin-top: auto;
         }
     </style>
 </head>
-<body class="font-sans">
-    <div class="min-h-screen flex items-center justify-center bg-dark-100 p-4">
-        <div class="login-container p-8 rounded-xl w-full max-w-md">
-            <div class="text-center mb-8">
-                <i class="fas fa-mobile-alt text-4xl text-blue-400 mb-3"></i>
-                <h2 class="text-3xl font-bold text-blue-400 brand-text">Wael Store</h2>
-                <p class="text-light-300 mt-2">متجرك الأول للهواتف الذكية</p>
-            </div>
-            
-            <h2 class="text-2xl font-bold mb-6 text-center text-light-100">
-                <i class="fas fa-sign-in-alt mr-2"></i>تسجيل الدخول
-            </h2>
-            
-            {% if form.errors %}
-            <div class="error-message px-4 py-3 rounded mb-4 flex items-center">
-                <i class="fas fa-exclamation-circle mr-2"></i>
-                اسم المستخدم أو كلمة المرور غير صحيحة
-            </div>
-            {% endif %}
-            
-            <form method="post" class="space-y-5">
-                {% csrf_token %}
-                <div>
-                    <label class="form-label block mb-2 font-medium">
-                        <i class="fas fa-user mr-2 text-blue-400"></i>اسم المستخدم
-                    </label>
-                    <input type="text" name="username" required 
-                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none transition">
-                </div>
-                <div>
-                    <label class="form-label block mb-2 font-medium">
-                        <i class="fas fa-lock mr-2 text-blue-400"></i>كلمة المرور
-                    </label>
-                    <input type="password" name="password" required 
-                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none transition">
-                </div>
-                
-                <button type="submit" 
-                        class="btn-login w-full bg-blue-600 text-white py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center">
-                    <i class="fas fa-sign-in-alt mr-2"></i> دخول
-                </button>
-            </form>
-
-            
+<body>
+    <div class="login-container">
+        <div class="brand-logo">👔</div>
+        <h1 class="brand-name">Vestro</h1>
+        <p class="brand-slogan">متجر الأزياء الرجالية</p>
+        
+        <h2 class="login-title">
+            <span>تسجيل الدخول</span>
+            <span>🔐</span>
+        </h2>
+        
+        {% if form.errors %}
+        <div class="error-message">
+            <span>⚠️</span>
+            <span>اسم المستخدم أو كلمة المرور غير صحيحة</span>
         </div>
+        {% endif %}
+        
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username" class="form-label">اسم المستخدم</label>
+                <input type="text" name="username" id="id_username" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password" class="form-label">كلمة المرور</label>
+                <input type="password" name="password" id="id_password" class="form-input" required>
+            </div>
+            
+            <button type="submit" class="btn-login">دخول</button>
+        </form>
     </div>
-
-    <footer class="absolute bottom-0 w-full py-4 text-center text-gray-500 text-sm">
-        <p>© 2025 Wael Store. جميع الحقوق محفوظة</p>
+    
+    <footer>
+        <p>&copy; 2023 متجر الأزياء الرجالية. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
-        // إضافة تأثيرات عند التركيز على الحقول
         document.querySelectorAll('.form-input').forEach(input => {
             input.addEventListener('focus', function() {
-                this.parentElement.querySelector('label').classList.add('text-blue-400');
+                this.style.borderColor = '#d4af37';
+                this.style.boxShadow = '0 0 0 2px rgba(212, 175, 55, 0.3)';
             });
+            
             input.addEventListener('blur', function() {
-                this.parentElement.querySelector('label').classList.remove('text-blue-400');
+                this.style.borderColor = '#dddddd';
+                this.style.boxShadow = 'none';
             });
         });
     </script>
