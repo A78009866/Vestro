@@ -4,175 +4,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - متجر الأزياء الرجالية</title>
+    <title>تسجيل الدخول - Vestro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        },
+                        dark: {
+                            50: '#f9fafb',
+                            100: '#1a1a1a',
+                            200: '#2d2d2d',
+                            300: '#3d3d3d',
+                            400: '#4b4b4b',
+                            500: '#5e5e5e',
+                        },
+                    },
+                    fontFamily: {
+                        'sans': ['Tajawal', 'ui-sans-serif', 'system-ui'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
+            background-color: #111827;
+            color: #f9fafb;
             font-family: 'Tajawal', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
-        
         .login-container {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            margin: 1rem;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
         }
-        
-        .brand-logo {
-            color: #000000;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .login-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
         }
-        
-        .brand-name {
-            color: #000000;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .brand-slogan {
-            color: #666666;
-            margin-bottom: 2rem;
-        }
-        
-        .login-title {
-            color: #000000;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: right;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #000000;
-            font-weight: bold;
-        }
-        
         .form-input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #dddddd;
-            border-radius: 4px;
-            font-family: inherit;
-            background-color: #ffffff;
-            color: #333333;
+            background-color: #1f2937 !important;
+            color: #f9fafb !important;
+            border: 1px solid #374151 !important;
+            transition: all 0.3s ease;
         }
-        
         .form-input:focus {
-            outline: none;
-            border-color: #d4af37;
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
-        
+        .form-input::placeholder {
+            color: #6b7280;
+        }
         .btn-login {
-            background-color: #d4af37;
-            color: #000000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-        
         .btn-login:hover {
-            background-color: #c9a227;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
         }
-        
+        .btn-login:active {
+            transform: translateY(0);
+        }
         .error-message {
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 0.8rem;
-            border-radius: 4px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            background: linear-gradient(135deg, #7f1d1d, #991b1b) !important;
+            border: 1px solid #b91c1c !important;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1);
         }
-        
-        footer {
-            background-color: #000000;
-            color: #ffffff;
-            text-align: center;
-            padding: 1rem;
-            width: 100%;
-            margin-top: auto;
+        .brand-text {
+            font-family: 'Arial', sans-serif;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #f9fafb;
+            text-transform: uppercase;
+        }
+        .footer {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+        }
+        .input-group:hover label {
+            color: #60a5fa !important;
+        }
+        .vestro-logo {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(147, 197, 253, 0.3);
         }
     </style>
 </head>
-<body>
-    <div class="login-container">
-        <div class="brand-logo">👔</div>
-        <h1 class="brand-name">Vestro</h1>
-        <p class="brand-slogan">متجر الأزياء الرجالية</p>
-        
-        <h2 class="login-title">
-            <span>تسجيل الدخول</span>
-            <span>🔐</span>
-        </h2>
-        
-        {% if form.errors %}
-        <div class="error-message">
-            <span>⚠️</span>
-            <span>اسم المستخدم أو كلمة المرور غير صحيحة</span>
+<body class="font-sans">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="login-container p-8 rounded-xl w-full max-w-md mx-4">
+            <div class="text-center mb-10">
+                <div class="mb-6">
+                    <span class="vestro-logo">VESTRO</span>
+                </div>
+                <p class="text-gray-400 text-lg">نظام إدارة المتجر</p>
+            </div>
+            
+            {% if form.errors %}
+            <div class="error-message px-4 py-3 rounded-lg mb-6 flex items-center animate-pulse">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                اسم المستخدم أو كلمة المرور غير صحيحة
+            </div>
+            {% endif %}
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="input-group space-y-2">
+                    <label class="block text-sm font-medium text-gray-400 transition-colors">
+                        <i class="fas fa-user ml-2"></i>اسم المستخدم
+                    </label>
+                    <input type="text" name="username" required placeholder="أدخل اسم المستخدم"
+                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none placeholder-gray-500">
+                </div>
+                <div class="input-group space-y-2">
+                    <label class="block text-sm font-medium text-gray-400 transition-colors">
+                        <i class="fas fa-lock ml-2"></i>كلمة المرور
+                    </label>
+                    <input type="password" name="password" required placeholder="أدخل كلمة المرور"
+                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none placeholder-gray-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit" 
+                            class="btn-login w-full text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center">
+                        <i class="fas fa-sign-in-alt ml-2"></i> دخول
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 text-center text-sm text-gray-400">
+                <a href="#" class="text-blue-400 hover:text-blue-300 transition-colors">نسيت كلمة المرور؟</a>
+            </div>
         </div>
-        {% endif %}
-        
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username" class="form-label">اسم المستخدم</label>
-                <input type="text" name="username" id="id_username" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="id_password" class="form-label">كلمة المرور</label>
-                <input type="password" name="password" id="id_password" class="form-input" required>
-            </div>
-            
-            <button type="submit" class="btn-login">دخول</button>
-        </form>
     </div>
-    
-    <footer>
-        <p>&copy; 2023 متجر الأزياء الرجالية. جميع الحقوق محفوظة.</p>
+
+    <footer class="footer fixed bottom-0 w-full py-3 text-center text-gray-400 text-xs">
+        <p>© 2025 Vestro. جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
         document.querySelectorAll('.form-input').forEach(input => {
             input.addEventListener('focus', function() {
-                this.style.borderColor = '#d4af37';
-                this.style.boxShadow = '0 0 0 2px rgba(212, 175, 55, 0.3)';
+                this.parentElement.querySelector('label').classList.add('text-blue-400');
             });
-            
             input.addEventListener('blur', function() {
-                this.style.borderColor = '#dddddd';
-                this.style.boxShadow = 'none';
+                if (!this.value) {
+                    this.parentElement.querySelector('label').classList.remove('text-blue-400');
+                }
             });
         });
     </script>
