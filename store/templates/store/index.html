@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر الأزياء الرجالية - الجزائر</title>
     <style>
-        /* أنماط عامة */
+        /* CSS مدمج */
         body {
             margin: 0;
             font-family: 'Tajawal', sans-serif;
-            background-color: #ffffff;
-            color: #333333;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: #121212; /* تغيير لون الخلفية */
+            color: #e0e0e0; /* تغيير لون النص الأساسي */
         }
-
-        /* الهيدر */
+        
+        /* تحسينات النافبار */
         header {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: #000;
+            color: #fff;
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         
         .header-container {
@@ -36,35 +33,29 @@
             padding: 0 1rem;
         }
         
-        .logo h1 {
-            color: #000000;
-            margin: 0;
-            font-size: 2rem;
-        }
-        
-        .logo p {
-            color: #000000;
-            margin: 0.2rem 0 0;
-            font-size: 0.9rem;
-            text-align: center;
+        .logo {
+            margin-bottom: 0.5rem;
         }
         
         nav {
             display: flex;
             justify-content: center;
             width: 100%;
-            margin-top: 1rem;
+            background-color: #111;
+            padding: 0.8rem 0;
         }
         
         .nav-links {
             display: flex;
-            justify-content: center;
-            gap: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
             padding: 0 1rem;
         }
         
         nav a {
-            color: #000000;
+            color: #fff;
             text-decoration: none;
             padding: 0.5rem 1rem;
             font-size: 1.1rem;
@@ -75,12 +66,17 @@
         
         nav a:hover {
             background-color: #d4af37;
-            color: #000000;
+            color: #000;
         }
         
-        /* باقي الأنماط */
+        .auth-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* تعديلات قسم البطل */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             height: 60vh;
@@ -105,7 +101,7 @@
         .btn {
             display: inline-block;
             background-color: #d4af37;
-            color: #000000;
+            color: #000;
             padding: 0.8rem 1.5rem;
             border-radius: 4px;
             text-decoration: none;
@@ -118,6 +114,7 @@
             transform: translateY(-3px);
         }
         
+        /* تعديلات بطاقات المنتجات */
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -128,17 +125,16 @@
         }
         
         .product-card {
-            background: #fff;
+            background: #1e1e1e; /* تغيير لون خلفية البطاقة */
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
             transition: all 0.3s;
-            border: 1px solid #eeeeee;
         }
         
         .product-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
         }
         
         .product-image {
@@ -164,7 +160,7 @@
         .product-info h3 {
             margin: 0 0 0.5rem;
             font-size: 1.2rem;
-            color: #000000;
+            color: #ffffff; /* لون النص الأبيض */
         }
         
         .product-price {
@@ -175,7 +171,7 @@
         }
         
         .product-description {
-            color: #666666;
+            color: #b0b0b0; /* لون النص الثانوي */
             margin-bottom: 1.5rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -184,11 +180,11 @@
         }
         
         footer {
-            background-color: #000000;
-            color: #ffffff;
+            background-color: #0a0a0a; /* لون أغمق للتذييل */
+            color: #b0b0b0;
             text-align: center;
             padding: 2rem;
-            margin-top: auto;
+            margin-top: 3rem;
         }
         
         @media (max-width: 768px) {
@@ -196,6 +192,10 @@
                 flex-direction: column;
                 gap: 0.5rem;
                 padding: 0.5rem;
+            }
+            
+            .auth-links {
+                margin-top: 0.5rem;
             }
             
             .hero-content h1 {
@@ -269,7 +269,9 @@
     </footer>
 
     <script>
+        // JavaScript مدمج
         document.addEventListener('DOMContentLoaded', function() {
+            // تأثيرات للبطاقات عند التمرير
             const productCards = document.querySelectorAll('.product-card');
             
             const observer = new IntersectionObserver((entries) => {
@@ -288,6 +290,7 @@
                 observer.observe(card);
             });
             
+            // تنعيم التمرير للروابط
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -299,4 +302,4 @@
         });
     </script>
 </body>
-                    </html>
+    </html>
