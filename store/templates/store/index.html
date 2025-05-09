@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر الأزياء الرجالية - الجزائر</title>
     <style>
-        /* CSS مدمج */
+        /* أنماط عامة */
         body {
             margin: 0;
             font-family: 'Tajawal', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #ffffff;
+            color: #333333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
-        /* تحسينات النافبار */
+
+        /* الهيدر */
         header {
-            background-color: #000;
-            color: #fff;
+            background-color: #ffffff;
+            color: #000000;
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .header-container {
@@ -33,29 +36,35 @@
             padding: 0 1rem;
         }
         
-        .logo {
-            margin-bottom: 0.5rem;
+        .logo h1 {
+            color: #000000;
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .logo p {
+            color: #000000;
+            margin: 0.2rem 0 0;
+            font-size: 0.9rem;
+            text-align: center;
         }
         
         nav {
             display: flex;
             justify-content: center;
             width: 100%;
-            background-color: #111;
-            padding: 0.8rem 0;
+            margin-top: 1rem;
         }
         
         .nav-links {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
+            justify-content: center;
+            gap: 1.5rem;
             padding: 0 1rem;
         }
         
         nav a {
-            color: #fff;
+            color: #000000;
             text-decoration: none;
             padding: 0.5rem 1rem;
             font-size: 1.1rem;
@@ -66,15 +75,10 @@
         
         nav a:hover {
             background-color: #d4af37;
-            color: #000;
+            color: #000000;
         }
         
-        .auth-links {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        /* باقي الأنماط تبقى كما هي */
+        /* باقي الأنماط */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
@@ -101,7 +105,7 @@
         .btn {
             display: inline-block;
             background-color: #d4af37;
-            color: #000;
+            color: #000000;
             padding: 0.8rem 1.5rem;
             border-radius: 4px;
             text-decoration: none;
@@ -129,6 +133,7 @@
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: all 0.3s;
+            border: 1px solid #eeeeee;
         }
         
         .product-card:hover {
@@ -159,6 +164,7 @@
         .product-info h3 {
             margin: 0 0 0.5rem;
             font-size: 1.2rem;
+            color: #000000;
         }
         
         .product-price {
@@ -169,7 +175,7 @@
         }
         
         .product-description {
-            color: #666;
+            color: #666666;
             margin-bottom: 1.5rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -178,11 +184,11 @@
         }
         
         footer {
-            background-color: #1a1a1a;
-            color: #fff;
+            background-color: #000000;
+            color: #ffffff;
             text-align: center;
             padding: 2rem;
-            margin-top: 3rem;
+            margin-top: auto;
         }
         
         @media (max-width: 768px) {
@@ -190,10 +196,6 @@
                 flex-direction: column;
                 gap: 0.5rem;
                 padding: 0.5rem;
-            }
-            
-            .auth-links {
-                margin-top: 0.5rem;
             }
             
             .hero-content h1 {
@@ -205,7 +207,6 @@
                 padding: 1rem;
             }
         }
-        
     </style>
 </head>
 <body>
@@ -229,6 +230,7 @@
                             <a href="{% url 'store:dashboard' %}">لوحة التحكم</a>
                             <a href="{% url 'store:logout' %}">تسجيل الخروج</a>
                         {% else %}
+                            <a href="{% url 'store:login' %}">تسجيل الدخول</a>
                         {% endif %}
                     </div>
                 </div>
@@ -236,7 +238,6 @@
         </div>
     </header>
     
-    <!-- باقي المحتوى يبقى كما هو -->
     <section class="hero">
         <div class="hero-content">
             <h1>اكتشف أحدث صيحات الموضة الرجالية</h1>
@@ -269,9 +270,7 @@
     </footer>
 
     <script>
-        // JavaScript مدمج
         document.addEventListener('DOMContentLoaded', function() {
-            // تأثيرات للبطاقات عند التمرير
             const productCards = document.querySelectorAll('.product-card');
             
             const observer = new IntersectionObserver((entries) => {
@@ -290,7 +289,6 @@
                 observer.observe(card);
             });
             
-            // تنعيم التمرير للروابط
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -302,4 +300,4 @@
         });
     </script>
 </body>
-</html>
+                    </html>
