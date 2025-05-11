@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: #121212;
+            color: #e0e0e0;
             margin: 0;
         }
         .dashboard-container {
@@ -22,11 +22,12 @@
             align-items: center;
             margin-bottom: 2rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #333;
         }
         .dashboard-title {
             margin: 0;
-            color: #1a1a1a;
+            color: #ffffff;
+            font-size: 1.8rem;
         }
         .add-product-btn {
             background-color: #d4af37;
@@ -36,9 +37,14 @@
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
         .add-product-btn:hover {
             background-color: #c9a227;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
         }
         .dashboard-sections {
             display: grid;
@@ -46,23 +52,25 @@
             gap: 2rem;
         }
         .section {
-            background: #fff;
+            background: #1e1e1e;
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
         .section-title {
             margin-top: 0;
-            color: #1a1a1a;
+            color: #d4af37;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #333;
+            font-size: 1.4rem;
         }
         .product-item, .order-item {
             display: grid;
             grid-template-columns: 100px 1fr;
             gap: 1rem;
             padding: 1rem 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #333;
         }
         .product-item:last-child, .order-item:last-child {
             border-bottom: none;
@@ -72,18 +80,29 @@
             height: 100px;
             object-fit: cover;
             border-radius: 4px;
+            border: 1px solid #444;
+        }
+        .product-info, .order-info {
+            color: #e0e0e0;
+        }
+        .product-info h3, .order-info h3 {
+            color: #ffffff;
+            margin-top: 0;
         }
         .product-actions, .order-actions {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+            gap: 0.8rem;
+            margin-top: 1rem;
         }
         .action-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 4px;
             text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
         }
         .edit-btn {
             background-color: #2196F3;
@@ -98,11 +117,20 @@
             color: white;
         }
         .confirmed {
-            background-color: #e8f5e9;
+            background-color: #1b5e20;
         }
         .confirmed-text {
-            color: #2e7d32;
+            color: #a5d6a7;
             font-weight: bold;
+        }
+        .empty-message {
+            color: #b0b0b0;
+            text-align: center;
+            padding: 1rem;
+        }
+        .empty-message a {
+            color: #d4af37;
+            text-decoration: none;
         }
         @media (max-width: 1024px) {
             .dashboard-sections {
@@ -114,7 +142,13 @@
                 grid-template-columns: 1fr;
             }
             .product-actions, .order-actions {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .dashboard-header {
                 flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
     </style>
@@ -135,10 +169,10 @@
                 {% for product in products %}
                 <div class="product-item">
                     <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
-                    <div>
+                    <div class="product-info">
                         <h3>{{ product.name }}</h3>
                         <p>{{ product.price }} دج | الكمية: {{ product.stock }}</p>
-                        <p>الحالة: {% if product.is_active %}نشط{% else %}غير نشط{% endif %}</p>
+                        <p>الحالة: {% if product.is_active %}<span style="color:#4CAF50;">نشط</span>{% else %}<span style="color:#f44336;">غير نشط</span>{% endif %}</p>
                         <div class="product-actions">
                             <a href="{% url 'store:edit_product' product.id %}" class="action-btn edit-btn">تعديل</a>
                             <a href="{% url 'store:toggle_product' product.id %}" class="action-btn toggle-btn">
@@ -148,7 +182,7 @@
                     </div>
                 </div>
                 {% empty %}
-                <p>لا توجد منتجات حتى الآن. <a href="{% url 'store:add_product' %}">أضف منتجك الأول</a></p>
+                <p class="empty-message">لا توجد منتجات حتى الآن. <a href="{% url 'store:add_product' %}">أضف منتجك الأول</a></p>
                 {% endfor %}
             </div>
             
@@ -158,7 +192,7 @@
                 {% for order in orders %}
                 <div class="order-item {% if order.confirmed %}confirmed{% endif %}">
                     <img src="{{ order.product.main_image.url }}" alt="{{ order.product.name }}">
-                    <div>
+                    <div class="order-info">
                         <h3>طلب #{{ order.id }}</h3>
                         <p><strong>المنتج:</strong> {{ order.product.name }}</p>
                         <p><strong>الزبون:</strong> {{ order.customer_name }}</p>
@@ -176,7 +210,7 @@
                     </div>
                 </div>
                 {% empty %}
-                <p>لا توجد طلبات حتى الآن.</p>
+                <p class="empty-message">لا توجد طلبات حتى الآن.</p>
                 {% endfor %}
             </div>
         </div>
@@ -207,4 +241,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
