@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر الأزياء الرجالية - الجزائر</title>
+    <style>
+        /* CSS مدمج */
+        body {
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+            background-color: #121212; /* تغيير لون الخلفية */
+            color: #e0e0e0; /* تغيير لون النص الأساسي */
+        }
+        
+        /* تحسينات النافبار */
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .logo {
+            margin-bottom: 0.5rem;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            background-color: #111;
+            padding: 0.8rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 1rem;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        
+        nav a:hover {
+            background-color: #d4af37;
+            color: #000;
+        }
+        
+        .auth-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* تعديلات قسم البطل */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #d4af37;
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c9a227;
+            transform: translateY(-3px);
+        }
+        
+        /* تعديلات بطاقات المنتجات */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .product-card {
+            background: #1e1e1e; /* تغيير لون خلفية البطاقة */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+        }
+        
+        .product-image {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            color: #ffffff; /* لون النص الأبيض */
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: #d4af37;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-description {
+            color: #b0b0b0; /* لون النص الثانوي */
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        footer {
+            background-color: #0a0a0a; /* لون أغمق للتذييل */
+            color: #b0b0b0;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.5rem;
+            }
+            
+            .auth-links {
+                margin-top: 0.5rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>Vestro</h1>
+                <p>الأناقة تبدأ من هنا</p>
+            </div>
+            
+            <nav>
+                <div class="nav-links">
+                    <div class="main-links">
+                        <a href="{% url 'store:home' %}">الرئيسية</a>
+                        <a href="#featured">منتجات مميزة</a>
+                        <a href="#categories">الفئات</a>
+                    </div>
+                    
+                    <div class="auth-links">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'store:dashboard' %}">لوحة التحكم</a>
+                            <a href="{% url 'store:logout' %}">تسجيل الخروج</a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>اكتشف أحدث صيحات الموضة الرجالية</h1>
+            <p>جودة عالية بأسعار تنافسية في جميع أنحاء الجزائر</p>
+            <a href="#featured" class="btn">تصفح المنتجات</a>
+        </div>
+    </section>
+    
+    <section id="featured" class="products">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{% url 'store:product_detail' product.id %}">
+                <div class="product-image">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <div class="product-price">{{ product.price }} دج</div>
+                    <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+                    <a href="{% url 'store:product_detail' product.id %}" class="btn">عرض التفاصيل</a>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </section>
+    
+    <footer>
+        <p>&copy; 2023 متجر الأزياء الرجالية. جميع الحقوق محفوظة.</p>
+        <p>الشحن متاح لجميع ولايات الجزائر</p>
+    </footer>
+
+    <script>
+        // JavaScript مدمج
+        document.addEventListener('DOMContentLoaded', function() {
+            // تأثيرات للبطاقات عند التمرير
+            const productCards = document.querySelectorAll('.product-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            productCards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease-out';
+                observer.observe(card);
+            });
+            
+            // تنعيم التمرير للروابط
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+    </html>

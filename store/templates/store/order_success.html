@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم استلام طلبك - متجر الأزياء الرجالية</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .success-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+        .success-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        .success-title {
+            font-size: 2rem;
+            color: #000000;
+            margin-bottom: 1rem;
+        }
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            color: #555555;
+        }
+        .order-number {
+            font-weight: bold;
+            color: #d4af37;
+        }
+        .back-btn {
+            background-color: #d4af37;
+            color: #000000;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background-color: #c9a227;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    {% include 'store/header.html' %}
+    
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h1 class="success-title">تم استلام طلبك بنجاح!</h1>
+        <p class="success-message">
+            شكراً لثقتك بنا. لقد تم استلام طلبك وسنتصل بك في أقرب وقت لتأكيد التفاصيل وتحديد موعد التسليم.
+            <br><br>
+            رقم الطلب: <span class="order-number">#{{ order.id }}</span>
+        </p>
+        <a href="{% url 'store:home' %}" class="back-btn">العودة إلى المتجر</a>
+    </div>
+    
+    {% include 'store/footer.html' %}
+</body>
+</html>

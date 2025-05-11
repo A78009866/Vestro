@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - متجر الأزياء الرجالية</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #121212; /* خلفية غامقة */
+            color: #e0e0e0; /* لون النص الأساسي */
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .product-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .product-header h1 {
+            color: #ffffff;
+            margin: 0;
+        }
+        .product-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: #1e1e1e; /* خلفية غامقة للبطاقة */
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333; /* إضافة حدود */
+        }
+        .product-gallery {
+            position: relative;
+        }
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: #2d2d2d; /* خلفية غامقة للصورة */
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #444; /* إطار للصورة */
+        }
+        .product-info h1 {
+            margin-top: 0;
+            color: #ffffff; /* لون النص الأبيض */
+        }
+        .product-price {
+            font-size: 2rem;
+            color: #d4af37; /* الحفاظ على اللون الذهبي */
+            font-weight: bold;
+            margin: 1.5rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333; /* خط فاصل */
+        }
+        .product-description {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #b0b0b0; /* لون النص الثانوي */
+            font-size: 1.1rem;
+        }
+        .stock-status {
+            display: inline-block;
+            padding: 0.7rem 1.2rem;
+            background: #1b5e20; /* خلفية خضراء داكنة */
+            color: #a5d6a7; /* نص أخضر فاتح */
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .stock-status.out-of-stock {
+            background: #5d4037; /* خلفية بنية داكنة */
+            color: #ef9a9a; /* نص أحمر فاتح */
+        }
+        .order-form {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #252525; /* خلفية غامقة للنموذج */
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .order-form h2 {
+            margin-top: 0;
+            color: #ffffff;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #444;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #d4af37; /* لون الذهبي للتسميات */
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-family: inherit;
+            background-color: #333;
+            color: #ffffff;
+            transition: all 0.3s;
+        }
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+        }
+        .btn {
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background-color: #c9a227;
+            transform: translateY(-2px);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        @media (max-width: 768px) {
+            .product-content {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+            .main-image {
+                height: 350px;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'store/header.html' %}
+    
+    <div class="container">
+        <div class="product-header">
+            <h1>{{ product.name }}</h1>
+        </div>
+        
+        <div class="product-content">
+            <div class="product-gallery">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+            </div>
+            
+            <div class="product-info">
+                <div class="stock-status {% if product.stock <= 0 %}out-of-stock{% endif %}">
+                    {% if product.stock > 0 %}
+                        متوفر في المخزن ({{ product.stock }} قطع)
+                    {% else %}
+                        غير متوفر حالياً
+                    {% endif %}
+                </div>
+                
+                <div class="product-price">{{ product.price }} دج</div>
+                
+                <div class="product-description">
+                    {{ product.description|linebreaks }}
+                </div>
+                
+                {% if product.stock > 0 %}
+                <div class="order-form">
+                    <h2>أكمل طلبك</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_customer_name">الاسم الكامل</label>
+                            {{ form.customer_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_phone_number">رقم الهاتف</label>
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_wilaya">الولاية</label>
+                            {{ form.wilaya }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_commune">البلدية</label>
+                            <select name="commune" id="id_commune" class="form-control" required>
+                                <option value="">اختر البلدية</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_address">العنوان التفصيلي</label>
+                            {{ form.address }}
+                        </div>
+                        <button type="submit" class="btn">تأكيد الطلب</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const communesData = {{ communes_json|safe }};
+            const wilayaSelect = document.getElementById('id_wilaya');
+            const communeSelect = document.getElementById('id_commune');
+            
+            // تحديث البلديات عند تغيير الولاية
+            wilayaSelect.addEventListener('change', function() {
+                const wilayaCode = this.value;
+                communeSelect.innerHTML = '<option value="">اختر البلدية</option>';
+                
+                if (wilayaCode && communesData[wilayaCode]) {
+                    communesData[wilayaCode].forEach(commune => {
+                        const option = document.createElement('option');
+                        option.value = commune;
+                        option.textContent = commune;
+                        communeSelect.appendChild(option);
+                    });
+                }
+            });
+
+            // تشغيل الحدث مرة واحدة عند التحميل
+            wilayaSelect.dispatchEvent(new Event('change'));
+
+            // التحقق من رقم الهاتف
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const phoneNumber = document.getElementById('id_phone_number').value;
+                    if (!/^(05|06|07)\d{8}$/.test(phoneNumber)) {
+                        e.preventDefault();
+                        alert('الرجاء إدخال رقم هاتف جزائري صحيح (يبدأ بـ 05 أو 06 أو 07 ويتكون من 10 أرقام)');
+                        return false;
+                    }
+                    return true;
+                });
+            }
+
+            // تأثيرات التمرير
+            const elements = document.querySelectorAll('.product-header, .product-content');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            elements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - متجر الأزياء الرجالية</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+        }
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        .dashboard-title {
+            margin: 0;
+            color: #1a1a1a;
+        }
+        .add-product-btn {
+            background-color: #d4af37;
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .add-product-btn:hover {
+            background-color: #c9a227;
+        }
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .section {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            margin-top: 0;
+            color: #1a1a1a;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .product-item, .order-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .product-item:last-child, .order-item:last-child {
+            border-bottom: none;
+        }
+        .product-item img, .order-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .product-actions, .order-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .toggle-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .confirmed {
+            background-color: #e8f5e9;
+        }
+        .confirmed-text {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        @media (max-width: 1024px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .product-item, .order-item {
+                grid-template-columns: 1fr;
+            }
+            .product-actions, .order-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'store/header.html' %}
+    
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">لوحة التحكم</h1>
+            <a href="{% url 'store:add_product' %}" class="add-product-btn">إضافة منتج جديد</a>
+        </div>
+        
+        <div class="dashboard-sections">
+            <div class="section">
+                <h2 class="section-title">منتجاتي</h2>
+                
+                {% for product in products %}
+                <div class="product-item">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.price }} دج | الكمية: {{ product.stock }}</p>
+                        <p>الحالة: {% if product.is_active %}نشط{% else %}غير نشط{% endif %}</p>
+                        <div class="product-actions">
+                            <a href="{% url 'store:edit_product' product.id %}" class="action-btn edit-btn">تعديل</a>
+                            <a href="{% url 'store:toggle_product' product.id %}" class="action-btn toggle-btn">
+                                {% if product.is_active %}إخفاء{% else %}إظهار{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>لا توجد منتجات حتى الآن. <a href="{% url 'store:add_product' %}">أضف منتجك الأول</a></p>
+                {% endfor %}
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">الطلبات الواردة</h2>
+                
+                {% for order in orders %}
+                <div class="order-item {% if order.confirmed %}confirmed{% endif %}">
+                    <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}">
+                    <div>
+                        <h3>طلب #{{ order.id }}</h3>
+                        <p><strong>المنتج:</strong> {{ order.product.name }}</p>
+                        <p><strong>الزبون:</strong> {{ order.customer_name }}</p>
+                        <p><strong>الهاتف:</strong> {{ order.phone_number }}</p>
+                        <p><strong>الولاية:</strong> {{ order.get_wilaya_display }}</p>
+                        <p><strong>البلدية:</strong> {{ order.commune }}</p>
+                        <p><strong>العنوان:</strong> {{ order.address }}</p>
+                        <p><strong>التاريخ:</strong> {{ order.created_at|date:"Y-m-d" }}</p>
+                        
+                        {% if not order.confirmed %}
+                        <button onclick="confirmOrder({{ order.id }})" class="action-btn edit-btn">تأكيد الطلب</button>
+                        {% else %}
+                        <p class="confirmed-text">تم تأكيد الطلب</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p>لا توجد طلبات حتى الآن.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function confirmOrder(orderId) {
+            fetch(`/store/confirm-order/${orderId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('حدث خطأ أثناء تأكيد الطلب');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء تأكيد الطلب');
+            });
+        }
+    </script>
+</body>
+    </html>
