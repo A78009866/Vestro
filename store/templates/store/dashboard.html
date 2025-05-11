@@ -134,7 +134,7 @@
                 
                 {% for product in products %}
                 <div class="product-item">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
                     <div>
                         <h3>{{ product.name }}</h3>
                         <p>{{ product.price }} دج | الكمية: {{ product.stock }}</p>
@@ -157,7 +157,7 @@
                 
                 {% for order in orders %}
                 <div class="order-item {% if order.confirmed %}confirmed{% endif %}">
-                    <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}">
+                    <img src="{{ order.product.main_image.url }}" alt="{{ order.product.name }}">
                     <div>
                         <h3>طلب #{{ order.id }}</h3>
                         <p><strong>المنتج:</strong> {{ order.product.name }}</p>

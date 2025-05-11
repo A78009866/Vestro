@@ -32,13 +32,25 @@ class Product(models.Model):
     category = models.CharField(max_length=100, verbose_name="الفئة")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="السعر")
     description = models.TextField(verbose_name="الوصف")
-    image = CloudinaryField('image')
+    main_image = CloudinaryField('image')
     stock = models.PositiveIntegerField(default=1, verbose_name="الكمية المتاحة")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = CloudinaryField('image')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'صورة المنتج'
+        verbose_name_plural = 'صور المنتجات'
+
+    def __str__(self):
+        return f"صورة لـ {self.product.name}"
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="المنتج")

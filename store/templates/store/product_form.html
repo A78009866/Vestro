@@ -81,6 +81,45 @@
             border: 1px solid #dddddd;
             border-radius: 4px;
         }
+    .image-upload-container {
+            margin-bottom: 1.5rem;
+        }
+        .image-upload-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px dashed #ddd;
+            border-radius: 4px;
+        }
+        .existing-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .existing-image {
+            position: relative;
+            width: 150px;
+        }
+        .existing-image img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .delete-checkbox {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+        }
+        .add-image-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -118,13 +157,34 @@
             </div>
             
             <div class="form-group">
-                <label for="id_image">صورة المنتج</label>
-                {{ form.image }}
-                {% if form.instance.image %}
-                <img id="image-preview" src="{{ form.instance.image.url }}" alt="Preview" class="image-preview" style="display: block;">
+                <label for="id_main_image">الصورة الرئيسية</label>
+                {{ form.main_image }}
+                {% if form.instance.main_image %}
+                <img id="main-image-preview" src="{{ form.instance.main_image.url }}" alt="Preview" class="image-preview" style="display: block;">
                 {% else %}
-                <img id="image-preview" src="#" alt="Preview" class="image-preview">
+                <img id="main-image-preview" src="#" alt="Preview" class="image-preview">
                 {% endif %}
+            </div>
+            
+            <div class="form-group image-upload-container">
+                <label>الصور الإضافية</label>
+                {{ formset.management_form }}
+                {% for form in formset %}
+                <div class="image-upload-item">
+                    {{ form.id }}
+                    {% if form.instance.image %}
+                        <div class="existing-images">
+                            <div class="existing-image">
+                                <img src="{{ form.instance.image.url }}" alt="صورة المنتج">
+                                {{ form.DELETE }} <label for="{{ form.DELETE.id_for_label }}">حذف</label>
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ form.image }}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="button" class="add-image-btn" id="add-more">إضافة صورة أخرى</button>
             </div>
             
             <button type="submit" class="submit-btn">حفظ</button>
@@ -134,8 +194,9 @@
     {% include 'store/footer.html' %}
     
     <script>
-        document.getElementById('id_image').addEventListener('change', function(e) {
-            const preview = document.getElementById('image-preview');
+        // معاينة الصورة الرئيسية
+        document.getElementById('id_main_image').addEventListener('change', function(e) {
+            const preview = document.getElementById('main-image-preview');
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
                 
@@ -146,6 +207,23 @@
                 
                 reader.readAsDataURL(this.files[0]);
             }
+        });
+
+        // إضافة حقول جديدة للصور
+        document.getElementById('add-more').addEventListener('click', function() {
+            const totalForms = document.getElementById('id_images-TOTAL_FORMS');
+            const currentForms = parseInt(totalForms.value);
+            const container = document.querySelector('.image-upload-container');
+            
+            const newForm = document.createElement('div');
+            newForm.classList.add('image-upload-item');
+            newForm.innerHTML = `
+                <input type="file" name="images-${currentForms}-image" id="id_images-${currentForms}-image">
+                <input type="hidden" name="images-${currentForms}-id" id="id_images-${currentForms}-id">
+            `;
+            
+            container.insertBefore(newForm, this);
+            totalForms.value = currentForms + 1;
         });
     </script>
 </body>

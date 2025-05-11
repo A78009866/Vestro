@@ -7,11 +7,24 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'password1', 'password2')
 
+# forms.py
+from django import forms
+from .models import Product, ProductImage
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'category', 'price', 'description', 'image', 'stock']
+        fields = ['name', 'category', 'price', 'description', 'main_image', 'stock']
 
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
+
+ProductImageFormSet = forms.inlineformset_factory(
+    Product, ProductImage, form=ProductImageForm,
+    extra=3, can_delete=True, can_delete_extra=True
+)
 from django import forms
 from .models import Order
 

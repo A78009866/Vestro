@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
-from .models import Product, Order
+from .forms import ProductForm, OrderForm, ProductImageFormSet
 from .forms import ProductForm, OrderForm
 from .data import COMMUNES_BY_WILAYA
 
@@ -48,10 +48,19 @@ def add_product(request):
             product = form.save(commit=False)
             product.seller = request.user
             product.save()
-            return redirect('store:dashboard')
+            
+            formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+            if formset.is_valid():
+                formset.save()
+                return redirect('store:dashboard')
     else:
         form = ProductForm()
-    return render(request, 'store/product_form.html', {'form': form, 'title': 'إضافة منتج'})
+        formset = ProductImageFormSet()
+    return render(request, 'store/product_form.html', {
+        'form': form,
+        'formset': formset,
+        'title': 'إضافة منتج'
+    })
 
 @login_required
 def edit_product(request, product_id):
@@ -60,10 +69,19 @@ def edit_product(request, product_id):
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('store:dashboard')
+            
+            formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+            if formset.is_valid():
+                formset.save()
+                return redirect('store:dashboard')
     else:
         form = ProductForm(instance=product)
-    return render(request, 'store/product_form.html', {'form': form, 'title': 'تعديل منتج'})
+        formset = ProductImageFormSet(instance=product)
+    return render(request, 'store/product_form.html', {
+        'form': form,
+        'formset': formset,
+        'title': 'تعديل منتج'
+    })
 
 @login_required
 def toggle_product(request, product_id):

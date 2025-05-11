@@ -158,6 +158,27 @@
             }
         }
     </style>
+    <style>
+    .additional-images {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+    .thumbnail:hover {
+        border-color: #d4af37;
+        transform: scale(1.05);
+    }
+</style>
 </head>
 
 <body>
@@ -169,9 +190,17 @@
         </div>
         
         <div class="product-content">
-            <div class="product-gallery">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
-            </div>
+    <div class="product-gallery">
+        <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="main-image">
+        
+        {% if product.images.all %}
+        <div class="additional-images">
+            {% for image in product.images.all %}
+            <img src="{{ image.image.url }}" alt="{{ product.name }}" class="thumbnail" onclick="changeMainImage(this)">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
             
             <div class="product-info">
                 <div class="stock-status {% if product.stock <= 0 %}out-of-stock{% endif %}">
@@ -280,5 +309,11 @@
             });
         });
     </script>
+    <script>
+    function changeMainImage(element) {
+        document.querySelector('.main-image').src = element.src;
+    }
+</script>
+
 </body>
 </html>
