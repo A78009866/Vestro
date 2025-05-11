@@ -93,6 +93,7 @@
             display: flex;
             gap: 0.8rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
         .action-btn {
             padding: 0.6rem 1.2rem;
@@ -132,6 +133,33 @@
             color: #d4af37;
             text-decoration: none;
         }
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
         @media (max-width: 1024px) {
             .dashboard-sections {
                 grid-template-columns: 1fr;
@@ -140,10 +168,6 @@
         @media (max-width: 768px) {
             .product-item, .order-item {
                 grid-template-columns: 1fr;
-            }
-            .product-actions, .order-actions {
-                flex-direction: row;
-                flex-wrap: wrap;
             }
             .dashboard-header {
                 flex-direction: column;
@@ -178,6 +202,7 @@
                             <a href="{% url 'store:toggle_product' product.id %}" class="action-btn toggle-btn">
                                 {% if product.is_active %}إخفاء{% else %}إظهار{% endif %}
                             </a>
+                            <button onclick="showDeleteConfirmation({{ product.id }})" class="action-btn delete-btn">حذف</button>
                         </div>
                     </div>
                 </div>
@@ -215,8 +240,21 @@
             </div>
         </div>
     </div>
+
+    <!-- نافذة تأكيد الحذف -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <div class="modal-content">
+            <h3>تأكيد الحذف</h3>
+            <p>هل أنت متأكد أنك تريد حذف هذا المنتج؟ هذا الإجراء لا يمكن التراجع عنه.</p>
+            <div class="modal-buttons">
+                <button id="confirmDeleteBtn" class="action-btn delete-btn">نعم، احذف</button>
+                <button onclick="hideDeleteConfirmation()" class="action-btn edit-btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
     
     <script>
+        // تأكيد الطلب
         function confirmOrder(orderId) {
             fetch(`/store/confirm-order/${orderId}/`, {
                 method: 'POST',
@@ -239,6 +277,49 @@
                 alert('حدث خطأ أثناء تأكيد الطلب');
             });
         }
+
+        // متغير لحفظ معرف المنتج المراد حذفه
+        let productToDelete = null;
+
+        // عرض نافذة تأكيد الحذف
+        function showDeleteConfirmation(productId) {
+            productToDelete = productId;
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+
+        // إخفاء نافذة تأكيد الحذف
+        function hideDeleteConfirmation() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            productToDelete = null;
+        }
+
+        // تأكيد الحذف
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (productToDelete) {
+                fetch(`/store/delete-product/${productToDelete}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('حدث خطأ أثناء حذف المنتج');
+                        hideDeleteConfirmation();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('حدث خطأ أثناء حذف المنتج');
+                    hideDeleteConfirmation();
+                });
+            }
+        });
     </script>
 </body>
 </html>

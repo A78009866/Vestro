@@ -115,3 +115,11 @@ def create_order(request, product_id):
     else:
         form = OrderForm()
     return render(request, 'store/create_order.html', {'form': form, 'product': product})
+
+@login_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id, seller=request.user)
+    if request.method == 'POST':
+        product.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
